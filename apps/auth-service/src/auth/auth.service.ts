@@ -2,7 +2,6 @@ import {
   Injectable,
   UnauthorizedException,
   ConflictException,
-  BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -168,7 +167,6 @@ export class AuthService {
   async refreshAccessToken(refreshToken: string) {
     try {
       // Verifica se o refresh token é válido
-      const payload = this.jwtService.verify(refreshToken, {
         secret: this.configService.get('JWT_REFRESH_SECRET'),
       });
 
