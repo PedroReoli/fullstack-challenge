@@ -167,6 +167,7 @@ export class AuthService {
   async refreshAccessToken(refreshToken: string) {
     try {
       // Verifica se o refresh token é válido
+      this.jwtService.verify(refreshToken, {
         secret: this.configService.get('JWT_REFRESH_SECRET'),
       });
 
