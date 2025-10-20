@@ -75,6 +75,31 @@ services:
     networks:
       - challenge-network
 
+  # API Gateway
+  api-gateway:
+    container_name: challenge-api-gateway
+    build:
+      context: .
+      dockerfile: ./apps/api-gateway/Dockerfile
+      target: development
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
+      - ./packages:/app/packages
+      - /app/node_modules
+      - /app/apps/api-gateway/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - AUTH_SERVICE_URL=http://auth-service:3002
+      - JWT_SECRET=dev-secret-key-change-in-production
+      - JWT_ACCESS_EXPIRATION=15m
+    depends_on:
+      - auth-service
+    networks:
+      - challenge-network
+
 volumes:
   postgres_data:
     driver: local
